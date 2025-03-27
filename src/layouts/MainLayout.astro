@@ -1,0 +1,102 @@
+---
+// MainLayout.astro - Extends BaseLayout with site header and footer
+import BaseLayout from './BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/reset.css';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+}
+
+const {
+  title = 'Astro Starter Theme',
+  description = 'A comprehensive starter theme for Astro with a modern CSS reset',
+  ogImage = '/images/og-image.jpg',
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>{title}</title>
+    <meta name='description' content={description} />
+
+    <!-- Favicon -->
+    <link rel='icon' type='image/svg+xml' href='/favicon.svg' />
+
+    <!-- Open Graph / Social Media -->
+    <meta property='og:type' content='website' />
+    <meta property='og:title' content={title} />
+    <meta property='og:description' content={description} />
+    <meta property='og:image' content={ogImage} />
+    <meta property='twitter:card' content='summary_large_image' />
+
+    <!-- Google Fonts -->
+    <link rel='preconnect' href='https://fonts.googleapis.com' />
+    <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin />
+    <link
+      href='https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap'
+      rel='stylesheet'
+    />
+
+    <!-- Slot for additional head elements -->
+    <slot name='head' />
+  </head>
+  <body>
+    <div class='site-wrapper'>
+      <Header />
+
+      <main>
+        <slot />
+      </main>
+
+      <Footer />
+    </div>
+
+    <!-- Script for client-side interactivity if needed -->
+    <script>
+      // Global site scripts can go here
+      document.addEventListener('DOMContentLoaded', () => {
+        // Initialize mobile menu, scroll effects, etc.
+      });
+    </script>
+
+    <!-- Slot for page-specific scripts -->
+    <slot name='scripts' />
+  </body>
+</html>
+
+<style is:global>
+  /* Additional global styles that build on the reset can go here */
+  :root {
+    --header-height: 4rem;
+    --footer-height: 12rem;
+
+    /* Colors */
+    --color-primary: #3b82f6;
+    --color-primary-light: #60a5fa;
+    --color-primary-dark: #2563eb;
+    --color-secondary: #f59e0b;
+    --color-text: #1f2937;
+    --color-text-light: #6b7280;
+    --color-background: #ffffff;
+    --color-background-alt: #f9fafb;
+    --color-border: #e5e7eb;
+  }
+
+  .site-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  main {
+    flex: 1;
+  }
+</style>

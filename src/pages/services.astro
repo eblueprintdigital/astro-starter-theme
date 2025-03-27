@@ -1,0 +1,65 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import Hero from '../components/Hero.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import { getCollection } from 'astro:content';
+
+// Get all services sorted by order
+const services = await getCollection('services');
+const sortedServices = services.sort((a, b) => a.data.order - b.data.order);
+---
+
+<MainLayout
+  title='Our Services - Astro Starter Theme'
+  description='Explore the range of services we offer at Astro Starter Theme.'
+>
+  <Hero
+    title='Our Services'
+    subtitle='Comprehensive solutions tailored to your needs'
+    alignment='center'
+    size='small'
+  />
+
+  <section class='py-xl'>
+    <div class='container'>
+      <div class='max-w-4xl mx-auto'>
+        <p class='text-center mb-xl'>
+          We offer a wide range of services designed to help you build modern,
+          performant web experiences. Each service is customized to meet your
+          specific requirements and business goals.
+        </p>
+
+        <div class='grid grid-cols-1 md-grid-cols-2 gap-lg'>
+          {
+            sortedServices.map((service) => (
+              <ServiceCard
+                title={service.data.title}
+                description={service.data.description}
+                icon={service.data.icon}
+                url={`/services/${service.slug}`}
+              />
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class='py-xl bg-light'>
+    <div class='container'>
+      <div class='text-center flow max-w-3xl mx-auto'>
+        <h2>Ready to Get Started?</h2>
+        <p>
+          Contact us today to discuss how our services can help you achieve your
+          goals. We'll work with you to create a customized solution that meets
+          your needs.
+        </p>
+        <div class='mt-md'>
+          <a href='/contact' class='btn btn-primary'>Contact Us</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</MainLayout>
+

@@ -1,0 +1,131 @@
+---
+// This component is a contact form with client-side validation
+// Server-side processing is handled via an API endpoint
+---
+
+<div class='card p-lg'>
+  <form id='contact-form' class='flow'>
+    <div class='grid grid-cols-1 md-grid-cols-2 gap-md'>
+      <!-- Name Field -->
+      <div class='flow flow-tight'>
+        <label for='name' class='fw-medium'>Name</label>
+        <input
+          type='text'
+          id='name'
+          name='name'
+          required
+          class='w-full p-xs border border-gray-300 rounded-sm'
+        />
+      </div>
+
+      <!-- Email Field -->
+      <div class='flow flow-tight'>
+        <label for='email' class='fw-medium'>Email</label>
+        <input
+          type='email'
+          id='email'
+          name='email'
+          required
+          class='w-full p-xs border border-gray-300 rounded-sm'
+        />
+      </div>
+    </div>
+
+    <!-- Subject Field -->
+    <div class='flow flow-tight'>
+      <label for='subject' class='fw-medium'>Subject</label>
+      <input
+        type='text'
+        id='subject'
+        name='subject'
+        required
+        class='w-full p-xs border border-gray-300 rounded-sm'
+      />
+    </div>
+
+    <!-- Message Field -->
+    <div class='flow flow-tight'>
+      <label for='message' class='fw-medium'>Message</label>
+      <textarea
+        id='message'
+        name='message'
+        rows='5'
+        required
+        class='w-full p-xs border border-gray-300 rounded-sm'></textarea>
+    </div>
+
+    <!-- Form Messages -->
+    <div id='form-message' class='hidden p-sm rounded-sm mt-xs'></div>
+
+    <!-- Submit Button -->
+    <div class='mt-sm'>
+      <button type='submit' class='btn btn-primary'>
+        <span id='submit-text'>Send Message</span>
+        <span id='loading-indicator' class='hidden'>Sending...</span>
+      </button>
+    </div>
+  </form>
+</div>
+
+<script>
+  // Form handling with client-side validation and submission
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('contact-form');
+    const formMessage = document.getElementById('form-message');
+    const submitText = document.getElementById('submit-text');
+    const loadingIndicator = document.getElementById('loading-indicator');
+
+    if (!form) return;
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Reset form message
+      formMessage.textContent = '';
+      formMessage.className = 'hidden';
+
+      // Show loading state
+      submitText.classList.add('hidden');
+      loadingIndicator.classList.remove('hidden');
+
+      // Get form data
+      const formData = new FormData(form);
+      const formDataObj = Object.fromEntries(formData.entries());
+
+      try {
+        // Send form data to API endpoint
+        const response = await fetch('/api/contact', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formDataObj),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          // Success
+          formMessage.textContent =
+            'Message sent successfully! We will get back to you soon.';
+          formMessage.className = 'bg-primary text-white p-sm rounded-sm mt-xs';
+          form.reset();
+        } else {
+          // API error
+          formMessage.textContent =
+            data.message || 'Something went wrong. Please try again.';
+          formMessage.className = 'bg-red-500 text-white p-sm rounded-sm mt-xs';
+        }
+      } catch (error) {
+        // Network error
+        formMessage.textContent = 'Connection error. Please try again.';
+        formMessage.className = 'bg-red-500 text-white p-sm rounded-sm mt-xs';
+      } finally {
+        // Hide loading state
+        submitText.classList.remove('hidden');
+        loadingIndicator.classList.add('hidden');
+      }
+    });
+  });
+</script>
+

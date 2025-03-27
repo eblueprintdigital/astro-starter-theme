@@ -1,0 +1,103 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import Hero from '../components/Hero.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import NewsCard from '../components/NewsCard.astro';
+
+// Import content collections
+import { getCollection } from 'astro:content';
+
+// Get services sorted by order
+const services = await getCollection('services');
+const sortedServices = services.sort((a, b) => a.data.order - b.data.order);
+
+// Get latest news articles
+const allNews = await getCollection('news', ({ data }) => {
+  return import.meta.env.PROD ? !data.draft : true;
+});
+const latestNews = allNews
+  .sort(
+    (a, b) =>
+      new Date(b.data.pubDate).valueOf() - new Date(a.data.pubDate).valueOf()
+  )
+  .slice(0, 3);
+---
+
+<MainLayout
+  title='Astro Starter Theme - Home'
+  description='Welcome to the Astro Starter Theme, a modern starter template for your next project.'
+>
+  <!-- Hero Section -->
+  <Hero
+    title='Modern Astro Starter Theme'
+    subtitle='A comprehensive starter theme with a simplified CSS reset, content collections, and best practices.'
+    showCta={true}
+    ctaText='Get Started'
+    ctaLink='#services'
+  >
+    <a slot='secondary-cta' href='/about' class='btn btn-outline'>Learn More</a>
+  </Hero>
+
+  <!-- Services Section -->
+  <section id='services' class='py-xl'>
+    <div class='container'>
+      <h2 class='text-center mb-lg'>Our Services</h2>
+
+      <div class='grid grid-cols-1 md-grid-cols-3 gap-md'>
+        {
+          sortedServices.map((service) => (
+            <ServiceCard
+              title={service.data.title}
+              description={service.data.description}
+              icon={service.data.icon}
+              url={`/services/${service.slug}`}
+            />
+          ))
+        }
+      </div>
+
+      <div class='text-center mt-lg'>
+        <a href='/services' class='btn btn-primary'>View All Services</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Latest News Section -->
+  <section class='py-xl bg-light'>
+    <div class='container'>
+      <h2 class='text-center mb-lg'>Latest News</h2>
+
+      {
+        latestNews.length > 0 ? (
+          <div class='grid grid-cols-1 md-grid-cols-3 gap-md'>
+            {latestNews.map((post, index) => (
+              <NewsCard post={post} featured={index === 0} />
+            ))}
+          </div>
+        ) : (
+          <p class='text-center'>No news articles available yet.</p>
+        )
+      }
+
+      <div class='text-center mt-lg'>
+        <a href='/news' class='btn btn-primary'>View All News</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class='py-xl bg-primary text-white'>
+    <div class='container'>
+      <div class='text-center flow'>
+        <h2>Ready to Get Started?</h2>
+        <p class='text-500 max-w-full mx-auto' style='max-width: 600px;'>
+          Let us help you bring your vision to life. Contact us today to discuss
+          how our services can meet your needs.
+        </p>
+        <div class='mt-md'>
+          <a href='/contact' class='btn bg-white text-primary'>Contact Us</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</MainLayout>

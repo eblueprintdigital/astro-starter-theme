@@ -1,0 +1,84 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import Hero from '../../components/Hero.astro';
+import { getCollection } from 'astro:content';
+
+// Generate static paths for all services
+export async function getStaticPaths() {
+  const services = await getCollection('services');
+
+  return services.map((service) => ({
+    params: { slug: service.slug },
+    props: { service },
+  }));
+}
+
+// Get the service data from props
+const { service } = Astro.props;
+const { Content } = await service.render();
+---
+
+<MainLayout
+  title={`${service.data.title} - Our Services`}
+  description={service.data.description}
+>
+  <Hero title={service.data.title} alignment='center' size='small' />
+
+  <section class='py-xl'>
+    <div class='container'>
+      <div class='max-w-3xl mx-auto flow'>
+        <div class='service-icon-large'>
+          {service.data.icon}
+        </div>
+
+        <div class='service-content flow'>
+          <p class='service-description text-500'>
+            {service.data.description}
+          </p>
+
+          <Content />
+
+          <div class='text-center mt-xl'>
+            <a href='/contact' class='btn btn-primary'>Request a Quote</a>
+            <a href='/services' class='btn btn-outline ml-sm'
+              >View All Services</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</MainLayout>
+
+<style>
+  .service-icon-large {
+    font-size: 3rem;
+    width: 6rem;
+    height: 6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-primary);
+    color: white;
+    border-radius: 50%;
+    margin: 0 auto 2rem;
+  }
+
+  .service-description {
+    font-size: 1.25rem;
+    color: var(--color-text-light);
+    margin-bottom: 2rem;
+  }
+
+  .ml-sm {
+    margin-left: 1rem;
+  }
+
+  @media (max-width: 640px) {
+    .ml-sm {
+      margin-left: 0;
+      margin-top: 1rem;
+    }
+  }
+</style>
+

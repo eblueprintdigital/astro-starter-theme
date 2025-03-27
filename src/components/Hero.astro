@@ -1,0 +1,149 @@
+---
+interface Props {
+  title: string;
+  subtitle?: string;
+  showCta?: boolean;
+  ctaText?: string;
+  ctaLink?: string;
+  backgroundImage?: string;
+  alignment?: 'left' | 'center' | 'right';
+  size?: 'small' | 'medium' | 'large';
+}
+
+const {
+  title,
+  subtitle,
+  showCta = false,
+  ctaText = 'Get Started',
+  ctaLink = '#',
+  backgroundImage,
+  alignment = 'center',
+  size = 'medium',
+} = Astro.props;
+
+// Determine classes based on alignment and size
+const alignmentClasses = {
+  left: 'text-left items-start',
+  center: 'text-center items-center',
+  right: 'text-right items-end',
+};
+
+const sizeClasses = {
+  small: 'py-md',
+  medium: 'py-xl',
+  large: 'py-2xl',
+};
+
+const heroClasses = `hero ${sizeClasses[size]} ${backgroundImage ? 'has-bg-image' : 'bg-background-alt'}`;
+const contentClasses = `hero-content ${alignmentClasses[alignment]}`;
+---
+
+<section
+  class={heroClasses}
+  style={backgroundImage ? `background-image: url(${backgroundImage})` : ''}
+>
+  <div class='container'>
+    <div class={contentClasses}>
+      <h1 class='hero-title'>{title}</h1>
+
+      {subtitle && <p class='hero-subtitle'>{subtitle}</p>}
+
+      <div class='hero-actions'>
+        {
+          showCta && (
+            <a href={ctaLink} class='btn btn-primary'>
+              {ctaText}
+            </a>
+          )
+        }
+        <slot name='secondary-cta' />
+      </div>
+
+      <slot />
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    width: 100%;
+  }
+
+  .hero.has-bg-image {
+    color: white;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+  }
+
+  .hero.has-bg-image::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+  }
+
+  .hero.has-bg-image .container {
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .hero-title {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  .hero-subtitle {
+    font-size: clamp(1.125rem, 2vw, 1.5rem);
+    color: var(--color-text-light);
+    max-width: 36rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .has-bg-image .hero-subtitle {
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 1rem;
+  }
+
+  .text-left .hero-actions {
+    justify-content: flex-start;
+  }
+
+  .text-right .hero-actions {
+    justify-content: flex-end;
+  }
+
+  @media (max-width: 640px) {
+    .hero-actions {
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .hero-actions a {
+      width: 100%;
+      text-align: center;
+    }
+  }
+</style>

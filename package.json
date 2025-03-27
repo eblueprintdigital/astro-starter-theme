@@ -1,0 +1,30 @@
+{
+  "name": "astro-starter",
+  "version": "1.0.0",
+  "description": "Astro Starter Theme with Modern CSS Reset",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "keywords": [
+    "astro",
+    "css",
+    "reset",
+    "starter-theme"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@astrojs/mdx": "^1.1.0",
+    "@astrojs/sitemap": "^3.0.0",
+    "@astrojs/tailwind": "^5.0.0",
+    "astro": "^3.2.0",
+    "nodemailer": "^6.9.5",
+    "tailwindcss": "^3.3.3"
+  }
+}

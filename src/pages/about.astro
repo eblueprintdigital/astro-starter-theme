@@ -1,0 +1,81 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import Hero from '../components/Hero.astro';
+---
+
+<MainLayout
+  title='About Us - Astro Starter Theme'
+  description='Learn more about the Astro Starter Theme and our mission.'
+>
+  <Hero
+    title='About Us'
+    subtitle='Learn more about our team and mission.'
+    alignment='center'
+    size='small'
+  />
+
+  <section class='py-xl'>
+    <div class='container'>
+      <div class='max-w-3xl mx-auto flow'>
+        <h2>Our Story</h2>
+        <p>
+          The Astro Starter Theme was created to help developers quickly build
+          beautiful, performant websites with a simplified CSS reset and modern
+          best practices. Our goal is to provide a solid foundation that gives
+          you the structure you need without getting in your way.
+        </p>
+
+        <p>
+          We believe in the power of web standards and the importance of
+          delivering fast, accessible experiences to users. Our theme is built
+          with progressive enhancement in mind, ensuring your site works well
+          for everyone, regardless of their device or internet connection.
+        </p>
+
+        <h2 class='mt-xl'>Our Values</h2>
+        <div class='grid grid-cols-1 md-grid-cols-2 gap-lg mt-md'>
+          <div class='flow'>
+            <h3>Performance First</h3>
+            <p>
+              We obsess over performance because we know it directly impacts
+              user experience and conversion rates. Our starter theme is
+              optimized for Core Web Vitals and lightning-fast load times.
+            </p>
+          </div>
+
+          <div class='flow'>
+            <h3>Accessibility</h3>
+            <p>
+              We believe the web should be for everyone. That's why
+              accessibility is baked into every component and feature we build,
+              ensuring your site can be used by all visitors.
+            </p>
+          </div>
+
+          <div class='flow'>
+            <h3>Developer Experience</h3>
+            <p>
+              Great developer experience leads to great user experiences. Our
+              code is clean, well-documented, and follows modern best practices
+              to make your development process smooth and enjoyable.
+            </p>
+          </div>
+
+          <div class='flow'>
+            <h3>Flexibility</h3>
+            <p>
+              We provide structure without restricting your creativity. Our
+              theme is designed to be customized and extended to fit your unique
+              project requirements.
+            </p>
+          </div>
+        </div>
+
+        <div class='text-center mt-xl'>
+          <a href='/contact' class='btn btn-primary'>Get in Touch</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</MainLayout>
+
