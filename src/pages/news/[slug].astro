@@ -1,37 +1,56 @@
 ---
+/*
+ * Dynamic News Article Page ([slug].astro)
+ *
+ * This is a dynamic route that generates a page for each news article.
+ * The [slug] in the filename creates a dynamic segment that matches the article's slug.
+ *
+ * Documentation: https://docs.astro.build/en/core-concepts/routing/#dynamic-routes
+ */
+
 import MainLayout from '../../layouts/MainLayout.astro';
-import { getCollection } from 'astro:content';
-import { formatDate } from '../../utils/formatDate';
+import { getCollection } from 'astro:content'; // Used to query content collections
+import { formatDate } from '../../utils/formatDate'; // Custom date formatting utility
 
 // Generate static paths for all news articles
+// This function runs at build time and creates a page for each article
 export async function getStaticPaths() {
+  // Get all news articles, filtering out drafts in production
   const news = await getCollection('news', ({ data }) => {
-    return import.meta.env.PROD ? !data.draft : true;
+    return import.meta.env.PROD ? !data.draft : true; // Show drafts only in development
   });
 
+  // Map each article to its own route with the article data as props
   return news.map((post) => ({
-    params: { slug: post.slug },
-    props: { post },
+    params: { slug: post.slug }, // The URL will be /news/{slug}
+    props: { post }, // Pass the entire post data as props
   }));
 }
 
 // Get the post data from props
 const { post } = Astro.props;
-const { Content } = await post.render();
+const { Content } = await post.render(); // Renders the Markdown content to components
 const { title, pubDate, coverImage, author, tags } = post.data;
 
-// Format date
+// Format date for display
 const formattedDate = formatDate(pubDate);
 ---
 
+<!-- 
+  Main layout wrapper with SEO metadata
+  The title includes the article title for better SEO
+-->
 <MainLayout
   title={`${title} - Astro Starter Theme`}
   description={post.data.description}
 >
+  <!-- Article structure with BEM naming convention -->
   <article class='article'>
+    <!-- Header section with title, tags, and metadata -->
     <div class='article-header'>
       <div class='container'>
         <div class='max-w-3xl mx-auto text-center'>
+          {/* Display tags if they exist */}
           {
             tags && tags.length > 0 && (
               <div class='article-tags'>
@@ -44,6 +63,7 @@ const formattedDate = formatDate(pubDate);
 
           <h1 class='article-title'>{title}</h1>
 
+          {/* Article metadata (date and author) */}
           <div class='article-meta'>
             <time datetime={pubDate}>{formattedDate}</time>
             {author && <span class='article-author'>By {author}</span>}
@@ -52,6 +72,7 @@ const formattedDate = formatDate(pubDate);
       </div>
     </div>
 
+    {/* Featured image section - only displayed if an image exists */}
     {
       coverImage && (
         <div class='article-featured-image'>
@@ -68,6 +89,7 @@ const formattedDate = formatDate(pubDate);
       )
     }
 
+    {/* Main content section - displays the rendered Markdown */}
     <div class='article-content'>
       <div class='container'>
         <div class='content-wrapper max-w-3xl mx-auto flow'>
@@ -76,6 +98,7 @@ const formattedDate = formatDate(pubDate);
       </div>
     </div>
 
+    {/* Footer section with navigation */}
     <div class='article-footer py-lg'>
       <div class='container'>
         <div class='max-w-3xl mx-auto'>
@@ -89,10 +112,17 @@ const formattedDate = formatDate(pubDate);
 </MainLayout>
 
 <style>
+  /* 
+   * Article header styling
+   * The large padding creates visual separation from the site header
+   */
   .article-header {
     padding: 4rem 0 2rem;
   }
 
+  /* 
+   * Tags container - horizontal layout with spacing
+   */
   .article-tags {
     display: flex;
     gap: 0.5rem;
@@ -100,20 +130,29 @@ const formattedDate = formatDate(pubDate);
     margin-bottom: 1rem;
   }
 
+  /* 
+   * Individual tag styling - pill-shaped with background color
+   */
   .tag {
     background-color: var(--color-primary-light);
     color: white;
     padding: 0.25rem 0.75rem;
-    border-radius: 999px;
+    border-radius: 999px; /* Fully rounded edges */
     font-size: 0.875rem;
     font-weight: 500;
   }
 
+  /* 
+   * Article title - responsive font size with clamp
+   */
   .article-title {
     font-size: clamp(2rem, 5vw, 3rem);
     margin-bottom: 1rem;
   }
 
+  /* 
+   * Article metadata container - centers the date and author
+   */
   .article-meta {
     color: var(--color-text-light);
     font-size: 1rem;
@@ -123,20 +162,32 @@ const formattedDate = formatDate(pubDate);
     align-items: center;
   }
 
+  /* 
+   * Author name styling
+   */
   .article-author {
     position: relative;
   }
 
+  /* 
+   * Add a bullet point before the author name
+   */
   .article-author::before {
     content: '•';
     position: absolute;
     left: -0.6rem;
   }
 
+  /* 
+   * Featured image container
+   */
   .article-featured-image {
     margin: 2rem 0;
   }
 
+  /* 
+   * Featured image styling - maintains aspect ratio with max-height
+   */
   .article-featured-image img {
     width: 100%;
     max-height: 500px;
@@ -144,29 +195,48 @@ const formattedDate = formatDate(pubDate);
     border-radius: 0.5rem;
   }
 
+  /* 
+   * Article content area
+   */
   .article-content {
     padding: 2rem 0 4rem;
   }
 
+  /* 
+   * Content wrapper - sets default spacing between flow elements
+   */
   .content-wrapper {
     --flow-space: 1.5rem;
   }
 
+  /* 
+   * The :global() syntax is required to style elements inside rendered Markdown
+   * Heading level 2 styling
+   */
   .content-wrapper :global(h2) {
     margin-top: 2rem;
     margin-bottom: 1rem;
   }
 
+  /* 
+   * Heading level 3 styling
+   */
   .content-wrapper :global(h3) {
     margin-top: 1.5rem;
     margin-bottom: 0.75rem;
   }
 
+  /* 
+   * Images within content
+   */
   .content-wrapper :global(img) {
     border-radius: 0.5rem;
     margin: 2rem 0;
   }
 
+  /* 
+   * Blockquote styling
+   */
   .content-wrapper :global(blockquote) {
     border-left: 4px solid var(--color-primary);
     padding-left: 1rem;
@@ -174,10 +244,12 @@ const formattedDate = formatDate(pubDate);
     margin: 2rem 0;
   }
 
+  /* 
+   * Navigation links at the bottom of the article
+   */
   .article-navigation {
     display: flex;
     justify-content: space-between;
     margin-top: 3rem;
   }
 </style>
-
