@@ -1,22 +1,29 @@
-/* Global Styles */
+/* 
+ * Global Styles
+ * 
+ * This file contains project-specific styles and overrides.
+ * Core reset and utility classes are imported from reset.css.
+ * Only add styles here that aren't already defined in reset.css.
+ */
 
-/* Additional utility classes */
-
-/* Container */
-.container {
-  width: 100%;
-  max-width: 1280px;
-  margin-inline: auto;
-  padding-inline: 1.5rem;
+/* ------------------------------------
+ * Theme-specific variables and colors
+ * ------------------------------------*/
+:root {
+  /* Theme colors */
+  --color-text: var(--clr-black);
+  --color-text-light: #6c757d;
+  --color-background: var(--clr-white);
+  --color-background-alt: #f8f9fa;
+  --color-primary: var(--clr-primary);
+  --color-primary-light: #6282fa;
+  --color-primary-dark: #2541d4;
+  --color-secondary: var(--clr-secondary);
 }
 
-@media (min-width: 768px) {
-  .container {
-    padding-inline: 2rem;
-  }
-}
-
-/* Typography */
+/* ------------------------------------
+ * Typography overrides
+ * ------------------------------------*/
 body {
   font-family:
     'Inter',
@@ -30,7 +37,6 @@ body {
   color: var(--color-text);
   background-color: var(--color-background);
   font-size: 1rem;
-  line-height: 1.5;
 }
 
 h1,
@@ -40,71 +46,24 @@ h4,
 h5,
 h6 {
   margin-bottom: 0.5em;
-  line-height: 1.2;
   font-weight: 700;
   color: var(--color-text);
-}
-
-h1 {
-  font-size: 2.5rem;
-}
-h2 {
-  font-size: 2rem;
-}
-h3 {
-  font-size: 1.5rem;
-}
-h4 {
-  font-size: 1.25rem;
-}
-h5 {
-  font-size: 1.125rem;
-}
-h6 {
-  font-size: 1rem;
 }
 
 p {
   margin-bottom: 1rem;
 }
 
-/* Flow utility for vertical rhythm */
-.flow > * + * {
-  margin-top: var(--flow-space, 1rem);
-}
-
-/* Buttons */
-.btn {
-  display: inline-block;
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.375rem;
-  font-weight: 500;
-  text-decoration: none;
-  text-align: center;
-  cursor: pointer;
-  transition:
-    background-color 0.2s,
-    color 0.2s,
-    border-color 0.2s,
-    box-shadow 0.2s;
-  line-height: 1.1;
-  border: 1px solid transparent;
-}
-
-.btn-primary {
-  background-color: var(--color-primary);
-  color: white;
-}
-
+/* ------------------------------------
+ * Project-specific button variants
+ * ------------------------------------*/
+/* 
+ * Note: Basic button styles (.btn) are in reset.css
+ * Only add button variants specific to this project here
+ */
 .btn-primary:hover,
 .btn-primary:focus {
   background-color: var(--color-primary-dark);
-}
-
-.btn-outline {
-  background-color: transparent;
-  border-color: var(--color-primary);
-  color: var(--color-primary);
 }
 
 .btn-outline:hover,
@@ -113,16 +72,10 @@ p {
   color: white;
 }
 
-/* Text utilities */
-.text-center {
-  text-align: center;
-}
-.text-left {
-  text-align: left;
-}
-.text-right {
-  text-align: right;
-}
+/* ------------------------------------
+ * Custom utility classes
+ * ------------------------------------*/
+/* Text color utilities */
 .text-white {
   color: white;
 }
@@ -141,111 +94,13 @@ p {
   background-color: var(--color-primary);
 }
 
-/* Spacing utilities */
-.mx-auto {
-  margin-left: auto;
-  margin-right: auto;
-}
-.mb-xs {
-  margin-bottom: 0.5rem;
-}
-.mb-sm {
-  margin-bottom: 1rem;
-}
-.mb-md {
-  margin-bottom: 1.5rem;
-}
-.mb-lg {
-  margin-bottom: 2rem;
-}
-.mb-xl {
-  margin-bottom: 3rem;
-}
-
-.mt-xs {
-  margin-top: 0.5rem;
-}
-.mt-sm {
-  margin-top: 1rem;
-}
-.mt-md {
-  margin-top: 1.5rem;
-}
-.mt-lg {
-  margin-top: 2rem;
-}
-.mt-xl {
-  margin-top: 3rem;
-}
-
-.py-xs {
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-}
-.py-sm {
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-}
-.py-md {
-  padding-top: 1.5rem;
-  padding-bottom: 1.5rem;
-}
-.py-lg {
-  padding-top: 2rem;
-  padding-bottom: 2rem;
-}
-.py-xl {
-  padding-top: 3rem;
-  padding-bottom: 3rem;
-}
+/* Project-specific spacing - use instead of reset.css if measurements differ */
 .py-2xl {
   padding-top: 5rem;
   padding-bottom: 5rem;
 }
 
-/* Grid utilities */
-.grid {
-  display: grid;
-}
-
-.grid-cols-1 {
-  grid-template-columns: 1fr;
-}
-
-@media (min-width: 768px) {
-  .md-grid-cols-2 {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .md-grid-cols-3 {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  .md-grid-cols-4 {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-.gap-xs {
-  gap: 0.5rem;
-}
-.gap-sm {
-  gap: 1rem;
-}
-.gap-md {
-  gap: 1.5rem;
-}
-.gap-lg {
-  gap: 2rem;
-}
-.gap-xl {
-  gap: 3rem;
-}
-
-/* Max width utilities */
-.max-w-full {
-  max-width: 100%;
-}
+/* Project-specific width utilities */
 .max-w-md {
   max-width: 28rem;
 }
@@ -264,23 +119,108 @@ p {
 .max-w-4xl {
   max-width: 56rem;
 }
+.max-w-5xl {
+  max-width: 64rem;
+}
+.max-w-6xl {
+  max-width: 72rem;
+}
+.max-w-7xl {
+  max-width: 80rem;
+}
 
-/* Flex utilities */
-.flex {
-  display: flex;
+/* Project-specific container override */
+.container {
+  max-width: 1280px;
+  padding-inline: 1.5rem;
 }
-.justify-between {
-  justify-content: space-between;
+
+@media (min-width: 768px) {
+  .container {
+    padding-inline: 2rem;
+  }
 }
-.justify-center {
-  justify-content: center;
+
+/* Layout utility classes */
+.section {
+  padding: var(--space-xl) 0;
 }
-.items-center {
-  align-items: center;
+
+.card {
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  background-color: white;
+  box-shadow: var(--shadow-sm);
+  transition:
+    box-shadow var(--transition-normal),
+    transform var(--transition-normal);
 }
-.flex-col {
-  flex-direction: column;
+
+.card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
 }
-.gap-xs {
-  gap: 0.5rem;
+
+/* Form styles */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--color-text);
+  background-color: white;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 0.375rem;
+  transition:
+    border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
+}
+
+.form-control:focus {
+  color: var(--color-text);
+  background-color: white;
+  border-color: var(--color-primary-light);
+  outline: 0;
+  box-shadow: 0 0 0 0.25rem rgba(67, 97, 238, 0.25);
+}
+
+.alert {
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 0.375rem;
+}
+
+.alert-success {
+  color: #0f5132;
+  background-color: #d1e7dd;
+  border-color: #badbcc;
+}
+
+.alert-danger {
+  color: #842029;
+  background-color: #f8d7da;
+  border-color: #f5c2c7;
+}
+
+/* Responsive overrides */
+@media (max-width: 767px) {
+  .mobile-stack {
+    flex-direction: column;
+  }
+
+  .mobile-full-width {
+    width: 100%;
+  }
 }
