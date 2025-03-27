@@ -3,7 +3,7 @@ title: 'Exciting New Features Announced'
 pubDate: 2023-08-15
 description: "Check out the latest features we've added to our platform."
 author: 'John Smith'
-coverImage: '/images/news/second-post.jpg'
+coverImage: 'https://fakeimg.pl/600x400'
 tags: ['features', 'updates']
 ---
 

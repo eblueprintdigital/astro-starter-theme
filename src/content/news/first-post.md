@@ -3,7 +3,7 @@ title: 'First News Post'
 pubDate: 2023-08-01
 description: 'This is the first news article in our blog series.'
 author: 'Jane Doe'
-coverImage: '/images/news/first-post.jpg'
+coverImage: 'https://fakeimg.pl/600x400'
 tags: ['announcements', 'new']
 ---
 
