@@ -1,7 +1,7 @@
 ---
 title: 'Digital Marketing'
 description: 'Comprehensive digital marketing strategies to grow your online presence.'
-icon: 'chart-line'
+icon: 'lucide:bar-chart'
 order: 3
 ---
 

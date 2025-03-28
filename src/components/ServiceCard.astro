@@ -1,16 +1,22 @@
 ---
-interface Props {
-  title: string;
-  description: string;
-  icon?: string;
-  iconColor?: string;
-  url?: string;
-}
+// Import the Icon component from astro-icon
+import { Icon } from 'astro-icon/components';
 
+/**
+ * ServiceCard Component
+ *
+ * Displays a service with title, description, and icon.
+ *
+ * @param {string} title - The service title
+ * @param {string} description - A brief description of the service
+ * @param {string} icon - Icon name in format "collection:icon-name" (e.g., "lucide:pencil-ruler")
+ * @param {string} iconColor - Color theme for the icon (primary or secondary)
+ * @param {string} url - Optional URL for the service details page
+ */
 const {
   title,
   description,
-  icon = 'star',
+  icon = 'lucide:star',
   iconColor = 'primary',
   url = '#',
 } = Astro.props;
@@ -29,12 +35,12 @@ const iconDisplay = iconMap[icon] || iconMap.default;
 ---
 
 <article class='service-card'>
-  <div class={`service-icon icon-${iconColor}`}>
-    <!-- Placeholder for icon. In a real implementation, you'd use an icon system -->
-    <span class='icon'>{icon}</span>
-  </div>
-
   <div class='service-content'>
+    <div class={`service-icon icon-${iconColor}`}>
+      <!-- Use the Icon component from astro-icon -->
+      <Icon name={icon} width='24' height='24' />
+    </div>
+
     <h3 class='service-title'>
       {
         url ? (
@@ -93,7 +99,6 @@ const iconDisplay = iconMap[icon] || iconMap.default;
     border-radius: 50%;
     margin-bottom: 1.25rem;
     color: white;
-    font-size: 1.25rem;
   }
 
   .icon-primary {

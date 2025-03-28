@@ -1,7 +1,7 @@
 ---
 title: 'Web Design'
 description: "Custom website design tailored to your brand's unique needs."
-icon: 'palette'
+icon: 'lucide:pencil-ruler'
 order: 1
 ---
 

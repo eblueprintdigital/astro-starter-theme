@@ -1,7 +1,7 @@
 ---
 title: 'Web Development'
 description: 'Powerful, scalable web applications built with modern technologies.'
-icon: 'code'
+icon: 'lucide:code'
 order: 2
 ---
 
