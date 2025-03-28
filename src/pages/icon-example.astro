@@ -1,0 +1,142 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import { Icon } from 'astro-icon/components';
+---
+
+<MainLayout
+  title='Icon Examples'
+  description='Examples of using the astro-icon package'
+>
+  <section class='container section'>
+    <h1>Icon Examples</h1>
+
+    <div class='py-lg'>
+      <h2>Basic Usage</h2>
+      <p>Icons can be used directly with the astro-icon package:</p>
+
+      <div class='card p-md my-md'>
+        <h3>Example Icons</h3>
+        <div class='flex gap-md items-center py-md'>
+          <Icon name='mdi:home' />
+          <Icon name='mdi:account' />
+          <Icon name='mdi:cog' />
+          <Icon name='mdi:heart' />
+          <Icon name='mdi:star' />
+        </div>
+      </div>
+
+      <h3>Code Example:</h3>
+      <pre
+        class='code-block'>
+        <code>
+          ---
+          import { Icon } from 'astro-icon/components';
+          ---
+          
+          &lt;Icon name="mdi:home" /&gt;
+        </code>
+      </pre>
+    </div>
+
+    <div class='py-lg'>
+      <h2>Customizing Icons</h2>
+
+      <div class='card p-md my-md'>
+        <h3>Size Variations</h3>
+        <div class='flex gap-md items-center py-md'>
+          <Icon name='mdi:home' width='16' height='16' />
+          <Icon name='mdi:home' width='24' height='24' />
+          <Icon name='mdi:home' width='32' height='32' />
+          <Icon name='mdi:home' width='48' height='48' />
+        </div>
+
+        <h3>Color Variations</h3>
+        <div class='flex gap-md items-center py-md'>
+          <Icon name='mdi:star' class='text-primary' />
+          <Icon name='mdi:star' style='color: #7209b7;' />
+          <Icon name='mdi:star' style='color: #4361ee;' />
+          <Icon name='mdi:star' style='color: #06d6a0;' />
+        </div>
+      </div>
+
+      <h3>Code Example:</h3>
+      <pre
+        class='code-block'>
+        <code>
+          &lt;!-- Size --&gt;
+          &lt;Icon name="mdi:home" width="32" height="32" /&gt;
+          
+          &lt;!-- Color --&gt;
+          &lt;Icon name="mdi:star" class="text-primary" /&gt;
+          &lt;Icon name="mdi:star" style="color: #7209b7;" /&gt;
+        </code>
+      </pre>
+    </div>
+
+    <div class='py-lg'>
+      <h2>Available Icon Sets</h2>
+      <p
+        >The astro-icon package provides access to thousands of icons from
+        different icon sets. Here are some examples:</p
+      >
+
+      <div class='card p-md my-md'>
+        <div class='grid md-grid-cols-3 gap-md'>
+          <div>
+            <h3>Material Design Icons</h3>
+            <p>Prefix: <code>mdi:</code></p>
+            <div class='flex gap-xs py-sm'>
+              <Icon name='mdi:home' />
+              <Icon name='mdi:account' />
+              <Icon name='mdi:cog' />
+            </div>
+          </div>
+
+          <div>
+            <h3>Phosphor Icons</h3>
+            <p>Prefix: <code>ph:</code></p>
+            <div class='flex gap-xs py-sm'>
+              <Icon name='ph:house' />
+              <Icon name='ph:user' />
+              <Icon name='ph:gear' />
+            </div>
+          </div>
+
+          <div>
+            <h3>Lucide Icons</h3>
+            <p>Prefix: <code>lucide:</code></p>
+            <div class='flex gap-xs py-sm'>
+              <Icon name='lucide:home' />
+              <Icon name='lucide:user' />
+              <Icon name='lucide:settings' />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p
+        >Browse all available icons at: <a
+          href='https://icon-sets.iconify.design/'
+          target='_blank'>https://icon-sets.iconify.design/</a
+        ></p
+      >
+    </div>
+  </section>
+</MainLayout>
+
+<style>
+  .code-block {
+    background-color: #f8f9fa;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    white-space: pre-wrap;
+    font-family: var(--ff-mono);
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  code {
+    font-family: var(--ff-mono);
+  }
+</style>
+
