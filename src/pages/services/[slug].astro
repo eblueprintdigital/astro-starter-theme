@@ -1,6 +1,7 @@
 ---
 import MainLayout from '../../layouts/MainLayout.astro';
 import Hero from '../../components/Hero.astro';
+import { Icon } from 'astro-icon/components';
 import { getCollection } from 'astro:content';
 
 // Generate static paths for all services
@@ -28,7 +29,7 @@ const { Content } = await service.render();
     <div class='container'>
       <div class='max-w-3xl mx-auto flow'>
         <div class='service-icon-large'>
-          {service.data.icon}
+          <Icon name={service.data.icon} width='48' height='48' />
         </div>
 
         <div class='service-content flow'>
@@ -81,4 +82,3 @@ const { Content } = await service.render();
     }
   }
 </style>
-

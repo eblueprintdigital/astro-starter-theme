@@ -2,7 +2,12 @@
 import MainLayout from '../layouts/MainLayout.astro';
 import Hero from '../components/Hero.astro';
 import NewsCard from '../components/NewsCard.astro';
+import Pagination from '../components/Pagination.astro';
 import { getCollection } from 'astro:content';
+
+// Pagination settings
+const ARTICLES_PER_PAGE = 5;
+const currentPage = 1; // First page
 
 // Get all published news articles sorted by date
 const allNews = await getCollection('news', ({ data }) => {
@@ -12,6 +17,10 @@ const sortedNews = allNews.sort(
   (a, b) =>
     new Date(b.data.pubDate).valueOf() - new Date(a.data.pubDate).valueOf()
 );
+
+// Calculate pagination
+const totalPages = Math.ceil(sortedNews.length / ARTICLES_PER_PAGE);
+const paginatedNews = sortedNews.slice(0, ARTICLES_PER_PAGE);
 ---
 
 <MainLayout
@@ -30,10 +39,10 @@ const sortedNews = allNews.sort(
       {
         sortedNews.length > 0 ? (
           <div class='grid grid-cols-1 md-grid-cols-3 gap-lg'>
-            {sortedNews.map((post, index) => (
+            {paginatedNews.map((post, index) => (
               <NewsCard
                 post={post}
-                featured={index === 0 && sortedNews.length > 2}
+                featured={index === 0 && currentPage === 1}
               />
             ))}
           </div>
@@ -44,6 +53,12 @@ const sortedNews = allNews.sort(
           </div>
         )
       }
+
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        baseUrl='/news'
+      />
     </div>
   </section>
 
@@ -63,4 +78,3 @@ const sortedNews = allNews.sort(
     </div>
   </section>
 </MainLayout>
-

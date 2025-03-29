@@ -7,6 +7,7 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap'; // Adds automatic sitemap generation
 import mdx from '@astrojs/mdx'; // Adds support for MDX (Markdown with JSX)
+import icon from 'astro-icon'; // Adds icon support with astro-icon
 
 // https://astro.build/config
 export default defineConfig({
@@ -18,12 +19,13 @@ export default defineConfig({
   integrations: [
     sitemap(), // Creates a sitemap.xml file for better SEO
     mdx(), // Enables MDX support for more powerful Markdown
+    icon(), // Enables icon support
   ],
 
   // Configuration for Markdown rendering
   markdown: {
     shikiConfig: {
-      theme: 'github-dark', // Code block theme
+      theme: 'dracula', // Code block theme
       wrap: true, // Enables word wrapping in code blocks
     },
   },

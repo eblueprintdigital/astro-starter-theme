@@ -1,0 +1,100 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import Hero from '../../components/Hero.astro';
+import NewsCard from '../../components/NewsCard.astro';
+import Pagination from '../../components/Pagination.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const ARTICLES_PER_PAGE = 3;
+
+  // Get all published news articles
+  const allNews = await getCollection('news', ({ data }) => {
+    return import.meta.env.PROD ? !data.draft : true;
+  });
+
+  // Sort by date (newest first)
+  const sortedNews = allNews.sort(
+    (a, b) =>
+      new Date(b.data.pubDate).valueOf() - new Date(a.data.pubDate).valueOf()
+  );
+
+  // Calculate total number of pages
+  const totalPages = Math.ceil(sortedNews.length / ARTICLES_PER_PAGE);
+
+  // Generate paths for all pages except the first one (which is handled by /news/index.astro)
+  return Array.from({ length: totalPages - 1 }, (_, i) => {
+    const pageNumber = i + 2; // Start from page 2
+    const pageArticles = sortedNews.slice(
+      (pageNumber - 1) * ARTICLES_PER_PAGE,
+      pageNumber * ARTICLES_PER_PAGE
+    );
+
+    return {
+      params: { page: String(pageNumber) },
+      props: {
+        articles: pageArticles,
+        currentPage: pageNumber,
+        totalPages,
+      },
+    };
+  });
+}
+
+// Receive the props from getStaticPaths
+const { articles, currentPage, totalPages } = Astro.props;
+---
+
+<MainLayout
+  title={`Latest News - Page ${currentPage} - Astro Starter Theme`}
+  description={`Browse our articles - Page ${currentPage} of ${totalPages}`}
+>
+  <Hero
+    title='Latest News'
+    subtitle='Stay updated with our latest articles, announcements, and tips'
+    alignment='center'
+    size='small'
+  />
+
+  <section class='py-xl'>
+    <div class='container'>
+      {
+        articles.length > 0 ? (
+          <div class='grid grid-cols-1 md-grid-cols-3 gap-lg'>
+            {articles.map((post) => (
+              <NewsCard post={post} featured={false} />
+            ))}
+          </div>
+        ) : (
+          <div class='text-center py-xl'>
+            <h2>No Articles Found</h2>
+            <p>There are no articles on this page.</p>
+          </div>
+        )
+      }
+
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        baseUrl='/news'
+      />
+    </div>
+  </section>
+
+  <!-- Subscribe Section -->
+  <section class='py-xl bg-light'>
+    <div class='container'>
+      <div class='text-center flow max-w-3xl mx-auto'>
+        <h2>Stay Updated</h2>
+        <p>
+          Subscribe to our newsletter to receive the latest news and updates
+          directly to your inbox.
+        </p>
+        <div class='mt-md'>
+          <a href='/contact' class='btn btn-primary'>Subscribe Now</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</MainLayout>
+

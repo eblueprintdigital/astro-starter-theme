@@ -1,0 +1,179 @@
+---
+/**
+ * Pagination Component
+ * 
+ * A reusable component for pagination across multiple pages of content.
+ * 
+ * @param {number} currentPage - The current page number (1-based)
+ * @param {number} totalPages - The total number of pages
+ * @param {string} baseUrl - The base URL for pagination links (without page number)
+ */
+interface Props {
+  currentPage: number;
+  totalPages: number;
+  baseUrl: string;
+}
+
+const { currentPage, totalPages, baseUrl } = Astro.props;
+
+// Generate an array of page numbers to display
+const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
+
+// Determine which page numbers to show (show all if 7 or fewer pages,
+// otherwise show current ± 2 and first/last with ellipses)
+let visiblePageNumbers: Array<number | string> = [];
+if (totalPages <= 7) {
+  visiblePageNumbers = pageNumbers;
+} else {
+  const showEllipsisStart = currentPage > 3;
+  const showEllipsisEnd = currentPage < totalPages - 2;
+
+  if (showEllipsisStart) {
+    visiblePageNumbers.push(1);
+    visiblePageNumbers.push('...');
+  }
+
+  // Pages around current
+  const startPage = Math.max(showEllipsisStart ? currentPage - 1 : 1, 1);
+  const endPage = Math.min(showEllipsisEnd ? currentPage + 1 : totalPages, totalPages);
+  for (let i = startPage; i <= endPage; i++) {
+    visiblePageNumbers.push(i);
+  }
+
+  if (showEllipsisEnd) {
+    visiblePageNumbers.push('...');
+    visiblePageNumbers.push(totalPages);
+  }
+}
+
+// Helper to generate page URLs
+const getPageUrl = (pageNum: number) => {
+  if (pageNum === 1) {
+    return baseUrl;
+  }
+  return `${baseUrl}/${pageNum}`;
+};
+---
+
+{totalPages > 1 && (
+  <nav class="pagination" aria-label="Pagination Navigation">
+    <ul class="pagination-list">
+      <!-- Previous Page Link -->
+      <li>
+        {currentPage > 1 ? (
+          <a 
+            href={getPageUrl(currentPage - 1)} 
+            class="pagination-link pagination-prev" 
+            aria-label="Go to previous page"
+          >
+            &larr;
+          </a>
+        ) : (
+          <span class="pagination-link pagination-prev disabled" aria-disabled="true">
+            &larr;
+          </span>
+        )}
+      </li>
+      
+      <!-- Page Number Links -->
+      {visiblePageNumbers.map((pageNum) => (
+        <li>
+          {typeof pageNum === 'number' ? (
+            <a 
+              href={getPageUrl(pageNum)} 
+              class={`pagination-link ${pageNum === currentPage ? 'active' : ''}`}
+              aria-current={pageNum === currentPage ? 'page' : undefined}
+              aria-label={`Go to page ${pageNum}`}
+            >
+              {pageNum}
+            </a>
+          ) : (
+            <span class="pagination-ellipsis">{pageNum}</span>
+          )}
+        </li>
+      ))}
+      
+      <!-- Next Page Link -->
+      <li>
+        {currentPage < totalPages ? (
+          <a 
+            href={getPageUrl(currentPage + 1)} 
+            class="pagination-link pagination-next" 
+            aria-label="Go to next page"
+          >
+            &rarr;
+          </a>
+        ) : (
+          <span class="pagination-link pagination-next disabled" aria-disabled="true">
+            &rarr;
+          </span>
+        )}
+      </li>
+    </ul>
+  </nav>
+)}
+
+<style>
+  .pagination {
+    display: flex;
+    justify-content: center;
+    margin: 2rem 0;
+  }
+
+  .pagination-list {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 0.25rem;
+  }
+
+  .pagination-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.5rem;
+    height: 2.5rem;
+    padding: 0 0.75rem;
+    border-radius: 0.25rem;
+    color: var(--color-text);
+    text-decoration: none;
+    font-weight: 500;
+    background-color: var(--color-background);
+    border: 1px solid var(--color-border);
+    transition: all 0.2s ease;
+  }
+
+  .pagination-prev,
+  .pagination-next {
+    font-size: 1.25rem;
+    line-height: 1;
+  }
+
+  .pagination-link:hover:not(.disabled):not(.active) {
+    background-color: var(--color-background-alt);
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+  }
+
+  .pagination-link.active {
+    background-color: var(--color-primary);
+    color: white;
+    border-color: var(--color-primary);
+  }
+
+  .pagination-link.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .pagination-ellipsis {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.5rem;
+    height: 2.5rem;
+    color: var(--color-text-light);
+  }
+</style> 

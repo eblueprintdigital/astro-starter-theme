@@ -20,18 +20,6 @@ const {
   iconColor = 'primary',
   url = '#',
 } = Astro.props;
-
-// Map of icon names to a simple visual representation
-// In a real project, you might use an icon library
-const iconMap = {
-  palette: '🎨',
-  code: '💻',
-  'chart-line': '📈',
-  default: '✨',
-};
-
-// Get the icon or use default
-const iconDisplay = iconMap[icon] || iconMap.default;
 ---
 
 <article class='service-card'>

@@ -1,0 +1,29 @@
+/**
+ * Icon Component
+ * 
+ * A wrapper for astro-icon that makes it easy to use icons throughout the site.
+ * 
+ * @param {string} name - Icon name in "collection:icon" format
+ * @param {number} [size=24] - Icon size in pixels
+ * @param {string} [class=""] - Additional CSS classes
+ * 
+ * Usage examples:
+ * <Icon name="mdi:home" />
+ * <Icon name="ph:user" size={32} />
+ * <Icon name="lucide:settings" class="text-primary" />
+ * 
+ * Find available icons at: https://icon-sets.iconify.design/
+ */
+
+import { Icon as AstroIcon } from 'astro-icon/components';
+
+const { name, size = 24, class: className = "" } = Astro.props;
+
+<AstroIcon name={name} width={size} height={size} class={`icon ${className}`} />
+
+<style>
+  .icon {
+    display: inline-block;
+    vertical-align: middle;
+  }
+</style> 
